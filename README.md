@@ -5,7 +5,7 @@ Reusable DDEV commands and optional project startup tooling for Silverstripe pro
 ## Install
 
 ```bash
-ddev add-on get github.com/wernerkrauss/ddev-silverstripe-tools --version v0.1.0
+ddev add-on get wernerkrauss/ddev-silverstripe-tools --version v0.1.0
 ```
 
 For local development:
