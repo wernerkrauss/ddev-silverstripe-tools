@@ -29,7 +29,8 @@ Review the resulting `.ddev` diff before committing it.
 
 ## Optional start hook
 
-The add-on installs the hook disabled. Enable it in a project-specific DDEV config file:
+The add-on installs the hook disabled when `DDEV_SILVERSTRIPE_AUTO_START` is not set. Set it to `true` in a
+project-specific DDEV config file to enable the hook:
 
 ```yaml
 web_environment:
@@ -39,6 +40,9 @@ web_environment:
 
 The hook then runs Composer installation, Silverstripe build, and optionally the frontend build after DDEV starts.
 Do not enable it for projects where startup should remain fast or where builds require a separate workflow.
+
+When the variable is unset or set to `false`, the hook exits immediately and does not run `composer install`, the
+Silverstripe build, or the optional frontend build.
 
 For frontend formatting, configure the theme path in the project:
 

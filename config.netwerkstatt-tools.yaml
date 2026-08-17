@@ -1,7 +1,6 @@
 # Enable the post-start workflow per project by setting this to true in the
-# project's config.local.yaml or another project-specific config file.
-web_environment:
-  - DDEV_SILVERSTRIPE_AUTO_START=false
+# project's config.local.yaml or another project-specific config file. The
+# hook is disabled when the variable is unset or set to false.
 
 hooks:
   post-start:
