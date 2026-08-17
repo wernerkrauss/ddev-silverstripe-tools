@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+## Description: Fix PHP and frontend formatting
+## Usage: fix
+set -euo pipefail
+
+[[ -x vendor/bin/phpcbf ]] || { echo 'Error: phpcbf is not installed.' >&2; exit 1; }
+php vendor/bin/phpcbf
+/mnt/ddev_config/commands/web/prettier write

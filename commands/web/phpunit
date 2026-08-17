@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+## Description: Run PHPUnit with Silverstripe test database credentials
+## Usage: phpunit [phpunit-args]
+set -euo pipefail
+
+if [[ ! -x vendor/bin/phpunit ]]; then
+  echo 'Error: phpunit/phpunit is not installed.' >&2
+  exit 1
+fi
+SS_DATABASE_USERNAME="root" SS_DATABASE_PASSWORD="root" php -d memory_limit=-1 vendor/bin/phpunit "$@"

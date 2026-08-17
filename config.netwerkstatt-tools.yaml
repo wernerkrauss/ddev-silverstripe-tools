@@ -1,0 +1,16 @@
+# Enable the post-start workflow per project by setting this to true in the
+# project's config.local.yaml or another project-specific config file.
+web_environment:
+  - DDEV_SILVERSTRIPE_AUTO_START=false
+
+hooks:
+  post-start:
+    - exec: |
+        if [ "${DDEV_SILVERSTRIPE_AUTO_START:-false}" != "true" ]; then
+          exit 0
+        fi
+        composer install
+        /mnt/ddev_config/commands/web/build
+        if [ "${DDEV_SILVERSTRIPE_AUTO_FRONTEND:-false}" = "true" ]; then
+          yarn build
+        fi

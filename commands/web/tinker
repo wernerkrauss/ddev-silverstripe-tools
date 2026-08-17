@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+## Description: Run the Silverstripe shell
+## Usage: tinker
+set -euo pipefail
+[[ -x vendor/bin/ssshell ]] || { echo 'Error: pstaender/ssshell is not installed.' >&2; exit 1; }
+php vendor/bin/ssshell

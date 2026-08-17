@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+## Description: Run PHP and frontend lint checks
+## Usage: lint [phpcs-args]
+set -euo pipefail
+
+[[ -x vendor/bin/phpcs ]] || { echo 'Error: phpcs is not installed.' >&2; exit 1; }
+php vendor/bin/phpcs "$@"
+if [[ -n "${DDEV_SILVERSTRIPE_THEME_PATH:-}" ]]; then
+  /mnt/ddev_config/commands/web/prettier check
+fi

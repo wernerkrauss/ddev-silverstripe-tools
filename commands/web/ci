@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+## Description: Run the standard Silverstripe quality checks
+## Usage: ci
+set -euo pipefail
+
+/mnt/ddev_config/commands/web/phpunit "$@"
+/mnt/ddev_config/commands/web/lint
+/mnt/ddev_config/commands/web/stan
+/mnt/ddev_config/commands/web/rector --dry-run --no-ansi
+if [[ -x vendor/bin/jack ]]; then
+  php vendor/bin/jack breakpoint
+fi

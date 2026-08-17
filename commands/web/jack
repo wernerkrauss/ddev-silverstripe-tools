@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+## Description: Run rector/jack
+## Usage: jack [jack-args]
+set -euo pipefail
+[[ -x vendor/bin/jack ]] || { echo 'Error: rector/jack is not installed.' >&2; exit 1; }
+php vendor/bin/jack "$@"
