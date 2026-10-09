@@ -2,5 +2,9 @@
 ## Description: Run PHPStan
 ## Usage: stan [phpstan-args]
 set -euo pipefail
-[[ -x vendor/bin/phpstan ]] || { echo 'Error: phpstan is not installed.' >&2; exit 1; }
+if [[ ! -x vendor/bin/phpstan ]]; then
+  echo 'Error: phpstan is not installed.' >&2
+  echo 'Install via: composer require --dev phpstan/phpstan (https://packagist.org/packages/phpstan/phpstan)' >&2
+  exit 127
+fi
 php vendor/bin/phpstan "$@"

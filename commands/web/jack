@@ -2,5 +2,9 @@
 ## Description: Run rector/jack
 ## Usage: jack [jack-args]
 set -euo pipefail
-[[ -x vendor/bin/jack ]] || { echo 'Error: rector/jack is not installed.' >&2; exit 1; }
+if [[ ! -x vendor/bin/jack ]]; then
+  echo 'Error: rector/jack is not installed.' >&2
+  echo 'Install via: composer require --dev rector/jack (https://packagist.org/packages/rector/jack)' >&2
+  exit 127
+fi
 php vendor/bin/jack "$@"

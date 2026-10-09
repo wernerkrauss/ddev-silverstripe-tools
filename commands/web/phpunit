@@ -4,7 +4,8 @@
 set -euo pipefail
 
 if [[ ! -x vendor/bin/phpunit ]]; then
-  echo 'Error: phpunit/phpunit is not installed.' >&2
-  exit 1
+  echo 'Error: phpunit is not installed.' >&2
+  echo 'Install via: composer require --dev phpunit/phpunit (https://packagist.org/packages/phpunit/phpunit)' >&2
+  exit 127
 fi
 SS_DATABASE_USERNAME="root" SS_DATABASE_PASSWORD="root" php -d memory_limit=-1 vendor/bin/phpunit "$@"

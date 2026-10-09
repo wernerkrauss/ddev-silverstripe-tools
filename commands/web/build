@@ -12,5 +12,6 @@ elif command -v sake >/dev/null 2>&1; then
   sake dev/build flush
 else
   echo 'Error: sake not found' >&2
-  exit 1
+  echo 'Install via: composer require silverstripe/framework (https://packagist.org/packages/silverstripe/framework)' >&2
+  exit 127
 fi

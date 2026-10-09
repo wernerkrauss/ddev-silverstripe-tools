@@ -3,6 +3,10 @@
 ## Usage: fix
 set -euo pipefail
 
-[[ -x vendor/bin/phpcbf ]] || { echo 'Error: phpcbf is not installed.' >&2; exit 1; }
+if [[ ! -x vendor/bin/phpcbf ]]; then
+  echo 'Error: phpcbf is not installed.' >&2
+  echo 'Install via: composer require --dev squizlabs/php_codesniffer (https://packagist.org/packages/squizlabs/php_codesniffer)' >&2
+  exit 127
+fi
 php vendor/bin/phpcbf
 /mnt/ddev_config/commands/web/prettier write

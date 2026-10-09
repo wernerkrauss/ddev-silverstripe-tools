@@ -2,5 +2,9 @@
 ## Description: Run Rector
 ## Usage: rector [rector-args]
 set -euo pipefail
-[[ -x vendor/bin/rector ]] || { echo 'Error: rector is not installed.' >&2; exit 1; }
+if [[ ! -x vendor/bin/rector ]]; then
+  echo 'Error: rector is not installed.' >&2
+  echo 'Install via: composer require --dev rector/rector (https://packagist.org/packages/rector/rector)' >&2
+  exit 127
+fi
 php vendor/bin/rector "$@"
