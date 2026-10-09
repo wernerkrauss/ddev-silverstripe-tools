@@ -4,7 +4,7 @@
 ## Usage: check-outdated-dependencies [args]
 set -euo pipefail
 if [[ -x vendor/bin/swiss-knife ]]; then
-  php vendor/bin/swiss-knife check-outdated-dependencies "$@"
+  php vendor/bin/swiss-knife breakpoint "$@"
 elif [[ -x vendor/bin/jack ]]; then
   php vendor/bin/jack breakpoint "$@"
 else

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub issue templates (`bug_report.yml`, `feature_request.yml`) and pull request template.
 
 ### Fixed
+- Fixed `check-outdated-dependencies` to use breakpoint action.
 - Fixed status checkmark icon in `ddev ci` output to use standard checkmark (`✔`) instead of emoji.
 - Added `#ddev-generated` signature to all command files and configuration to allow DDEV to update files seamlessly.
 
