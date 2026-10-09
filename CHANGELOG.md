@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-10-09
+
+### Added
+- Apache-2.0 `LICENSE` file.
+- `.gitattributes` to exclude development and CI files from release archives.
+- DDEV version constraint (`>= v1.24.10`) in `install.yaml`.
+- Bats assertion libraries and comprehensive health checks in `tests/test.bats`.
+- Add-on Update Checker reference and workflow instructions in `AGENTS.md`.
+
+### Changed
+- Aligned `README.md` badges and GitHub Pull Request template with official DDEV add-on template standards.
+- Updated GitHub Actions CI test matrix and workflow configuration.
+
 ## [0.2.1] - 2026-10-09
 
 ### Added
@@ -63,7 +76,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add-on installation manifest `install.yaml`.
 - Documentation in `README.md`.
 
-[Unreleased]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/wernerkrauss/ddev-silverstripe-tools/releases/tag/v0.1.0
