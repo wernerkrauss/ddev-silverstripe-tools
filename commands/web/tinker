@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run the Silverstripe shell
 ## Usage: tinker
 set -euo pipefail

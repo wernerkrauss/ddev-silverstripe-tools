@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run the standard Silverstripe quality checks
 ## Usage: ci [phpunit-args]
 

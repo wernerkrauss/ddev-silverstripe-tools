@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run rector/jack or rector/swiss-knife (Deprecated: Use check-outdated-dependencies instead)
 ## Usage: jack [jack-args]
 set -euo pipefail

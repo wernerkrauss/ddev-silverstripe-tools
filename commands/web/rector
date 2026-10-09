@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run Rector
 ## Usage: rector [rector-args]
 set -euo pipefail

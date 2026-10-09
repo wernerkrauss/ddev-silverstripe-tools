@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Check for outdated Composer dependencies using rector/swiss-knife
 ## Usage: check-outdated-dependencies [args]
 set -euo pipefail

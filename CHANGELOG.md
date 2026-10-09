@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Added `#ddev-generated` signature to all command files and configuration to allow DDEV to update files seamlessly.
+
 ## [0.2.0] - 2026-10-09
 
 ### Added

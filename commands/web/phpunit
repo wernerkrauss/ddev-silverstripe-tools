@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run PHPUnit with Silverstripe test database credentials
 ## Usage: phpunit [phpunit-args]
 set -euo pipefail

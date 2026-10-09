@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run Silverstripe sspak
 ## Usage: sspak [sspak-args]
 set -euo pipefail

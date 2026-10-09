@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Check or format the configured Silverstripe theme
 ## Usage: prettier [check|write]
 set -euo pipefail

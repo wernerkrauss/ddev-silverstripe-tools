@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run PHP and frontend lint checks
 ## Usage: lint [phpcs-args]
 set -euo pipefail

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Fix PHP and frontend formatting
 ## Usage: fix
 set -euo pipefail

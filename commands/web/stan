@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Run PHPStan
 ## Usage: stan [phpstan-args]
 set -euo pipefail

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#ddev-generated
 ## Description: Build Silverstripe's database
 ## Usage: build
 set -euo pipefail
