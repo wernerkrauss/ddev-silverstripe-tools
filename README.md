@@ -1,8 +1,8 @@
 # ddev-silverstripe-tools
 
 [![DDEV Add-on Registry](https://img.shields.io/badge/DDEV%20Add--on%20Registry-wernerkrauss%2Fddev--silverstripe--tools-blue)](https://addons.ddev.com/wernerkrauss/ddev-silverstripe-tools)
-[![tests](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml/badge.svg)](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml)
-[![Latest Release](https://img.shields.io/github/v/release/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/releases)
+<!-- [![tests](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml/badge.svg)](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml) -->
+[![Latest Tag](https://img.shields.io/github/v/tag/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/tags)
 [![Last Commit](https://img.shields.io/github/last-commit/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/commits)
 [![License](https://img.shields.io/github/license/wernerkrauss/ddev-silverstripe-tools)](LICENSE)
 
