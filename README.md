@@ -95,6 +95,6 @@ otherwise, additional arguments are passed to the underlying tool.
 
 - `DDEV_SILVERSTRIPE_THEME_PATH` is required by `ddev prettier` and enables the optional frontend check in `ddev lint`.
 - `ddev fix` always invokes Prettier, so it requires `DDEV_SILVERSTRIPE_THEME_PATH` even when only PHP formatting is needed.
-- Commands fail early with a clear error when their required project-local binary is missing. The exception is `ddev sspak`,
+- Commands fail early with a clear error and installation hint when their required project-local binary is missing (exit code 127). The exception is `ddev sspak`,
   which installs its global binary automatically.
-- `ddev ci` is a convenience wrapper around the other checks; it stops when one of the checks fails.
+- `ddev ci` is a convenience wrapper around the other checks; it runs all checks, treats uninstalled tools (exit code 127) as skipped, collects their statuses, and outputs a summary at the end.

@@ -1,12 +1,141 @@
 #!/usr/bin/env bash
 ## Description: Run the standard Silverstripe quality checks
-## Usage: ci
-set -euo pipefail
+## Usage: ci [phpunit-args]
 
+set -uo pipefail
+
+# ANSI Color Codes
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+BLACK_ON_GREEN='\033[0;30;42m'
+BLACK_ON_RED='\033[0;30;41m'
+NC='\033[0m' # No Color
+
+# Helper for banners
+print_banner() {
+    local message="$1"
+    local color="$2"
+    local width=100
+    echo -e "\n${color}$(printf '%*s' $width '')${NC}"
+    echo -e "${color} $(printf '%-*s' $((width - 1)) "$message")${NC}"
+    echo -e "${color}$(printf '%*s' $width '')${NC}\n"
+}
+
+# Variable für den Gesamtstatus
+EXIT_CODE=0
+
+# Status-Speicher
+STATUS_PHPUNIT="SKIP"
+STATUS_LINT="SKIP"
+STATUS_RECTOR="SKIP"
+STATUS_PHPSTAN="SKIP"
+STATUS_JACK="SKIP"
+
+# 1) PHPUnit (delegate to the dedicated ddev command to avoid duplication)
+echo "*** PHPUnit ***"
 /mnt/ddev_config/commands/web/phpunit "$@"
-/mnt/ddev_config/commands/web/lint
-/mnt/ddev_config/commands/web/stan
-/mnt/ddev_config/commands/web/rector --dry-run --no-ansi
-if [[ -x vendor/bin/jack ]]; then
-  php vendor/bin/jack breakpoint
+PHPUNIT_EXIT=$?
+if [ $PHPUNIT_EXIT -eq 0 ]; then
+  echo -e "${GREEN}✅  PHPUnit OK${NC}"
+  STATUS_PHPUNIT="OK"
+elif [ $PHPUNIT_EXIT -eq 127 ]; then
+  echo -e "⚪  PHPUnit is not installed, skipping."
+  STATUS_PHPUNIT="SKIP"
+else
+  echo -e "${RED}❌  PHPUnit tests failed.${NC}"
+  STATUS_PHPUNIT="FAILED"
+  EXIT_CODE=1
 fi
+
+# 2) Linting
+echo "*** Linting ***"
+/mnt/ddev_config/commands/web/lint
+LINT_EXIT=$?
+if [ $LINT_EXIT -eq 0 ]; then
+  echo -e "${GREEN}✅  Linting OK${NC}"
+  STATUS_LINT="OK"
+elif [ $LINT_EXIT -eq 127 ]; then
+  echo -e "⚪  PHPCS is not installed, skipping."
+  STATUS_LINT="SKIP"
+else
+  echo -e "${RED}❌  Linting found errors. Please run 'ddev fix' to fix errors automatically and 'ddev lint' to see what's still missing${NC}"
+  STATUS_LINT="FAILED"
+  EXIT_CODE=1
+fi
+
+# 3) Rector (dry-run)
+echo "*** Rector ***"
+/mnt/ddev_config/commands/web/rector --dry-run --no-ansi
+RECTOR_EXIT=$?
+if [ $RECTOR_EXIT -eq 0 ]; then
+  echo -e "${GREEN}✅  Rector OK${NC}"
+  STATUS_RECTOR="OK"
+elif [ $RECTOR_EXIT -eq 127 ]; then
+  echo -e "⚪  Rector is not installed, skipping."
+  STATUS_RECTOR="SKIP"
+else
+  echo -e "${RED}❌  Rector found things to improve. Please run 'ddev rector' and commit the fixes${NC}"
+  STATUS_RECTOR="FAILED"
+  EXIT_CODE=1
+fi
+
+# 4) PHPStan (using project configuration)
+echo "*** PHPStan ***"
+/mnt/ddev_config/commands/web/stan --no-ansi
+STAN_EXIT=$?
+if [ $STAN_EXIT -eq 0 ]; then
+  echo -e "${GREEN}✅  PHPStan OK${NC}"
+  STATUS_PHPSTAN="OK"
+elif [ $STAN_EXIT -eq 127 ]; then
+  echo -e "⚪  PHPStan is not installed, skipping."
+  STATUS_PHPSTAN="SKIP"
+else
+  echo -e "${RED}❌  PHPStan found errors! Please fix${NC}"
+  STATUS_PHPSTAN="FAILED"
+  EXIT_CODE=1
+fi
+
+# 5) Jack (Composer update check)
+echo "*** Jack (Composer update check) ***"
+/mnt/ddev_config/commands/web/jack breakpoint
+JACK_EXIT=$?
+if [ $JACK_EXIT -eq 0 ]; then
+  echo -e "${GREEN}✅  Jack OK${NC}"
+  STATUS_JACK="OK"
+elif [ $JACK_EXIT -eq 127 ]; then
+  echo -e "⚪  Jack is not installed, skipping."
+  STATUS_JACK="SKIP"
+else
+  echo -e "${RED}❌  Jack found too many outdated packages. Please run 'ddev composer update'.${NC}"
+  STATUS_JACK="FAILED"
+  EXIT_CODE=1
+fi
+
+# --- SUMMARY ---
+echo -e "\n================ SUMMARY ================"
+print_status() {
+    local name="$1"
+    local status="$2"
+    if [ "$status" == "OK" ]; then
+        echo -e "${name}: $(printf '%*s' $((20 - ${#name})) '') ${GREEN}✅ OK${NC}"
+    elif [ "$status" == "FAILED" ]; then
+        echo -e "${name}: $(printf '%*s' $((20 - ${#name})) '') ${RED}❌ FAILED${NC}"
+    else
+        echo -e "${name}: $(printf '%*s' $((20 - ${#name})) '') ⚪ SKIP"
+    fi
+}
+
+print_status "PHPUnit" "$STATUS_PHPUNIT"
+print_status "Linting" "$STATUS_LINT"
+print_status "Rector" "$STATUS_RECTOR"
+print_status "PHPStan" "$STATUS_PHPSTAN"
+print_status "Jack" "$STATUS_JACK"
+echo "========================================="
+
+if [ $EXIT_CODE -eq 0 ]; then
+    print_banner "[OK] ALL CHECKS PASSED" "$BLACK_ON_GREEN"
+else
+    print_banner "[ERROR] SOME CHECKS FAILED" "$BLACK_ON_RED"
+fi
+
+exit $EXIT_CODE
