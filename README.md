@@ -1,5 +1,11 @@
 # ddev-silverstripe-tools
 
+[![DDEV Add-on Registry](https://img.shields.io/badge/DDEV%20Add--on%20Registry-wernerkrauss%2Fddev--silverstripe--tools-blue)](https://addons.ddev.com/wernerkrauss/ddev-silverstripe-tools)
+[![tests](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml/badge.svg)](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml)
+[![Latest Release](https://img.shields.io/github/v/release/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/releases)
+[![Last Commit](https://img.shields.io/github/last-commit/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/commits)
+[![License](https://img.shields.io/github/license/wernerkrauss/ddev-silverstripe-tools)](LICENSE)
+
 Reusable DDEV commands and optional project startup tooling for Silverstripe projects.
 
 ## Install
@@ -22,7 +28,7 @@ The add-on installs project-specific commands into `.ddev/commands/web/` and rec
 Install a newer released tag again:
 
 ```bash
-ddev add-on get github.com/wernerkrauss/ddev-silverstripe-tools --version v0.2.0
+ddev add-on get wernerkrauss/ddev-silverstripe-tools --version v0.2.0
 ```
 
 Review the resulting `.ddev` diff before committing it.
