@@ -1,9 +1,9 @@
 # ddev-silverstripe-tools
 
-[![DDEV Add-on Registry](https://img.shields.io/badge/DDEV%20Add--on%20Registry-wernerkrauss%2Fddev--silverstripe--tools-blue)](https://addons.ddev.com/wernerkrauss/ddev-silverstripe-tools)
-[![tests](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml/badge.svg)](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml)
-[![Latest Tag](https://img.shields.io/github/v/tag/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/tags)
-[![Last Commit](https://img.shields.io/github/last-commit/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/commits)
+[![add-on registry](https://img.shields.io/badge/DDEV-Add--on_Registry-blue)](https://addons.ddev.com/wernerkrauss/ddev-silverstripe-tools)
+[![tests](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/wernerkrauss/ddev-silverstripe-tools/actions/workflows/tests.yml?query=branch%3Amain)
+[![last commit](https://img.shields.io/github/last-commit/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/commits)
+[![release](https://img.shields.io/github/v/release/wernerkrauss/ddev-silverstripe-tools)](https://github.com/wernerkrauss/ddev-silverstripe-tools/releases/latest)
 [![License](https://img.shields.io/github/license/wernerkrauss/ddev-silverstripe-tools)](LICENSE)
 
 Reusable DDEV commands and optional project startup tooling for Silverstripe projects.

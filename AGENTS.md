@@ -87,6 +87,7 @@ When preparing and publishing a new release:
 - **DDEV Add-on Template**: [ddev/ddev-addon-template](https://github.com/ddev/ddev-addon-template)
 - **DDEV Add-on Maintenance Guide**: [DDEV Blog: Add-on Maintenance Guide](https://ddev.com/blog/ddev-add-on-maintenance-guide/)
 - **Recommended Tools & Practices**:
+  - Add-on Update Checker: `curl -fsSL https://ddev.com/s/addon-update-checker.sh | bash` to check conformity with the official DDEV add-on template.
   - GitHub Actions CI matrix with Bats tests (`tests/test.bats`) for validating `ddev add-on get` and command execution.
   - Linters: ShellCheck for bash scripts, markdownlint for docs, and yamllint for configuration files.
   - Dependabot / auto-merge workflows for keeping GitHub Actions updated.

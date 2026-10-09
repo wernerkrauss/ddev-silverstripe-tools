@@ -1,52 +1,92 @@
+#!/usr/bin/env bats
+
+# Bats is a testing framework for Bash
+# Documentation https://bats-core.readthedocs.io/en/stable/
+# Bats libraries documentation https://github.com/ztombol/bats-docs
+
+# For local tests, install bats-core, bats-assert, bats-file, bats-support
+# And run this in the add-on root directory:
+#   bats ./tests/test.bats
+# To exclude release tests:
+#   bats ./tests/test.bats --filter-tags '!release'
+# For debugging:
+#   bats ./tests/test.bats --show-output-of-passing-tests --verbose-run --print-output-on-failure
+
 setup() {
   set -eu -o pipefail
-  export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
-  export TESTDIR=~/tmp/test-silverstripe-tools
-  mkdir -p $TESTDIR
-  export PROJNAME=test-silverstripe-tools
-  export DDEV_NON_INTERACTIVE=true
-  ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
+
+  # Override this variable for your add-on:
+  export GITHUB_REPO=wernerkrauss/ddev-silverstripe-tools
+
+  TEST_BREW_PREFIX="$(brew --prefix 2>/dev/null || true)"
+  export BATS_LIB_PATH="${BATS_LIB_PATH}:${TEST_BREW_PREFIX}/lib:/usr/lib/bats"
+  bats_load_library bats-assert
+  bats_load_library bats-file
+  bats_load_library bats-support
+
+  export DIR="$(cd "$(dirname "${BATS_TEST_FILENAME}")/.." >/dev/null 2>&1 && pwd)"
+  export PROJNAME="test-$(basename "${GITHUB_REPO}")"
+  mkdir -p "${HOME}/tmp"
+  export TESTDIR="$(mktemp -d "${HOME}/tmp/${PROJNAME}.XXXXXX")"
+  export DDEV_NONINTERACTIVE=true
+  export DDEV_NO_INSTRUMENTATION=true
+  ddev delete -Oy "${PROJNAME}" >/dev/null 2>&1 || true
   cd "${TESTDIR}"
-  ddev config --project-name=${PROJNAME} --project-type=php --docroot=public
-  ddev start -y >/dev/null
+  run ddev config --project-name="${PROJNAME}" --project-tld=ddev.site
+  assert_success
+  run ddev start -y
+  assert_success
+}
+
+health_checks() {
+  # Verify command files and config exist
+  assert_file_exist .ddev/commands/web/build
+  assert_file_exist .ddev/commands/web/check-outdated-dependencies
+  assert_file_exist .ddev/commands/web/ci
+  assert_file_exist .ddev/commands/web/fix
+  assert_file_exist .ddev/commands/web/jack
+  assert_file_exist .ddev/commands/web/lint
+  assert_file_exist .ddev/commands/web/phpunit
+  assert_file_exist .ddev/commands/web/prettier
+  assert_file_exist .ddev/commands/web/rector
+  assert_file_exist .ddev/commands/web/sspak
+  assert_file_exist .ddev/commands/web/stan
+  assert_file_exist .ddev/commands/web/tinker
+  assert_file_exist .ddev/config.netwerkstatt-tools.yaml
 }
 
 teardown() {
   set -eu -o pipefail
   cd "${TESTDIR}" || true
-  ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
-  [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR}
+  ddev delete -Oy "${PROJNAME}" >/dev/null 2>&1 || true
+  # Persist TESTDIR if running inside GitHub Actions. Useful for uploading test result artifacts
+  # See example at https://github.com/ddev/github-action-add-on-test#preserving-artifacts
+  if [ -n "${GITHUB_ENV:-}" ]; then
+    [ -e "${GITHUB_ENV:-}" ] && echo "TESTDIR=${HOME}/tmp/${PROJNAME}" >> "${GITHUB_ENV}"
+  else
+    [ "${TESTDIR}" != "" ] && rm -rf "${TESTDIR}"
+  fi
 }
 
 @test "install from directory" {
   set -eu -o pipefail
   cd "${TESTDIR}"
-  echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev add-on get "${DIR}"
-  ddev restart -y
-  # Verify command files and config exist
-  [ -f .ddev/commands/web/build ]
-  [ -f .ddev/commands/web/check-outdated-dependencies ]
-  [ -f .ddev/commands/web/ci ]
-  [ -f .ddev/commands/web/fix ]
-  [ -f .ddev/commands/web/jack ]
-  [ -f .ddev/commands/web/lint ]
-  [ -f .ddev/commands/web/phpunit ]
-  [ -f .ddev/commands/web/prettier ]
-  [ -f .ddev/commands/web/rector ]
-  [ -f .ddev/commands/web/sspak ]
-  [ -f .ddev/commands/web/stan ]
-  [ -f .ddev/commands/web/tinker ]
-  [ -f .ddev/config.netwerkstatt-tools.yaml ]
+  echo "# ddev add-on get ${DIR} with project ${PROJNAME} in $(pwd)" >&3
+  run ddev add-on get "${DIR}"
+  assert_success
+  run ddev restart -y
+  assert_success
+  health_checks
 }
 
+# bats test_tags=release
 @test "install from release" {
   set -eu -o pipefail
   cd "${TESTDIR}"
-  echo "# ddev add-on get wernerkrauss/ddev-silverstripe-tools with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev add-on get wernerkrauss/ddev-silverstripe-tools
-  ddev restart -y
-  [ -f .ddev/commands/web/build ]
-  [ -f .ddev/commands/web/ci ]
-  [ -f .ddev/config.netwerkstatt-tools.yaml ]
+  echo "# ddev add-on get ${GITHUB_REPO} with project ${PROJNAME} in $(pwd)" >&3
+  run ddev add-on get "${GITHUB_REPO}"
+  assert_success
+  run ddev restart -y
+  assert_success
+  health_checks
 }

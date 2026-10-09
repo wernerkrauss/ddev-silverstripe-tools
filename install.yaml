@@ -1,4 +1,5 @@
 name: ddev-silverstripe-tools
+ddev_version_constraint: '>= v1.24.10'
 repository: wernerkrauss/ddev-silverstripe-tools
 version: 0.1.0
 install_date: "2026-08-17T00:00:00Z"
