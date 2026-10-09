@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
-## Description: Run rector/jack
+## Description: Run rector/jack or rector/swiss-knife
 ## Usage: jack [jack-args]
 set -euo pipefail
-if [[ ! -x vendor/bin/jack ]]; then
-  echo 'Error: rector/jack is not installed.' >&2
-  echo 'Install via: composer require --dev rector/jack (https://packagist.org/packages/rector/jack)' >&2
+if [[ -x vendor/bin/jack ]]; then
+  php vendor/bin/jack "$@"
+elif [[ -x vendor/bin/swiss-knife ]]; then
+  php vendor/bin/swiss-knife "$@"
+else
+  echo 'Error: rector/swiss-knife (or rector/jack) is not installed.' >&2
+  echo 'Install via: composer require --dev rector/swiss-knife (https://packagist.org/packages/rector/swiss-knife)' >&2
   exit 127
 fi
-php vendor/bin/jack "$@"

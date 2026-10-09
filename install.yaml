@@ -4,6 +4,7 @@ version: 0.1.0
 install_date: "2026-08-17T00:00:00Z"
 project_files:
   - commands/web/build
+  - commands/web/check-outdated-dependencies
   - commands/web/ci
   - commands/web/fix
   - commands/web/jack

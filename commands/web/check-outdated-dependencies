@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+## Description: Check for outdated Composer dependencies using rector/swiss-knife
+## Usage: check-outdated-dependencies [args]
+set -euo pipefail
+if [[ -x vendor/bin/swiss-knife ]]; then
+  php vendor/bin/swiss-knife check-outdated-dependencies "$@"
+elif [[ -x vendor/bin/jack ]]; then
+  php vendor/bin/jack breakpoint "$@"
+else
+  echo 'Error: rector/swiss-knife is not installed.' >&2
+  echo 'Install via: composer require --dev rector/swiss-knife (https://packagist.org/packages/rector/swiss-knife)' >&2
+  exit 127
+fi

@@ -74,7 +74,8 @@ otherwise, additional arguments are passed to the underlying tool.
 | `ddev phpunit [args]` | Runs the project’s `vendor/bin/phpunit` with an unlimited PHP memory limit and the default DDEV/Silverstripe test database credentials (`root`/`root`). |
 | `ddev stan [args]` | Runs the project’s `vendor/bin/phpstan`. |
 | `ddev rector [args]` | Runs the project’s `vendor/bin/rector`. Use `ddev rector --dry-run` to inspect proposed changes. |
-| `ddev jack [args]` | Runs `vendor/bin/jack` (Rector Jack), if the project uses it. |
+| `ddev jack [args]` | Runs `vendor/bin/jack` (Rector Jack) or falls back to `vendor/bin/swiss-knife` (Rector Swiss Knife). |
+| `ddev check-outdated-dependencies [args]` | Checks for outdated Composer dependencies using `rector/swiss-knife` (`vendor/bin/swiss-knife check-outdated-dependencies`). |
 
 ### Code quality and formatting
 
