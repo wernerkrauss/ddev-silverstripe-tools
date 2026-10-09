@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-09
+
 ### Added
 - `ddev check-outdated-dependencies` command to check for outdated Composer packages using `rector/swiss-knife`
   (with fallback to `rector/jack`).
@@ -21,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Missing tool binaries in command scripts now return exit code `127` (`Command not found`) instead of `1`.
 - `ddev jack` updated to transparently fall back to `rector/swiss-knife` since `rector/jack` is deprecated.
 - Startup post-start hook updated to run `yarn build` in `DDEV_SILVERSTRIPE_THEME_PATH` when configured.
+
+### Deprecated
+- `ddev jack` is deprecated in favor of `ddev check-outdated-dependencies` and displays a deprecation warning on stderr.
 
 ### Fixed
 - Fixed post-start hook execution and installation instructions in `README.md`.
@@ -44,5 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add-on installation manifest `install.yaml`.
 - Documentation in `README.md`.
 
-[Unreleased]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/wernerkrauss/ddev-silverstripe-tools/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/wernerkrauss/ddev-silverstripe-tools/releases/tag/v0.1.0

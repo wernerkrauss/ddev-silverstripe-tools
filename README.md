@@ -74,7 +74,7 @@ otherwise, additional arguments are passed to the underlying tool.
 | `ddev phpunit [args]` | Runs the project’s `vendor/bin/phpunit` with an unlimited PHP memory limit and the default DDEV/Silverstripe test database credentials (`root`/`root`). |
 | `ddev stan [args]` | Runs the project’s `vendor/bin/phpstan`. |
 | `ddev rector [args]` | Runs the project’s `vendor/bin/rector`. Use `ddev rector --dry-run` to inspect proposed changes. |
-| `ddev jack [args]` | Runs `vendor/bin/jack` (Rector Jack) or falls back to `vendor/bin/swiss-knife` (Rector Swiss Knife). |
+| `ddev jack [args]` | Runs `vendor/bin/jack` (Deprecated: Use `ddev check-outdated-dependencies` instead) or falls back to `vendor/bin/swiss-knife`. |
 | `ddev check-outdated-dependencies [args]` | Checks for outdated Composer dependencies using `rector/swiss-knife` (`vendor/bin/swiss-knife check-outdated-dependencies`). |
 
 ### Code quality and formatting
@@ -84,7 +84,7 @@ otherwise, additional arguments are passed to the underlying tool.
 | `ddev lint [phpcs-args]` | Runs PHP_CodeSniffer. If `DDEV_SILVERSTRIPE_THEME_PATH` is configured, it also checks the theme with Prettier. |
 | `ddev fix` | Fixes PHP formatting with `vendor/bin/phpcbf` and formats the configured theme with Prettier. This changes files. |
 | `ddev prettier [check\|write]` | Checks or formats `src/**/*.{js,css,scss}` below `DDEV_SILVERSTRIPE_THEME_PATH` using the theme’s Yarn/Prettier installation. The default is `check`. |
-| `ddev ci` | Runs the standard project checks in sequence: PHPUnit, PHP/frontend linting, PHPStan, and Rector in dry-run mode. If `vendor/bin/jack` exists, it also runs `jack breakpoint`. |
+| `ddev ci` | Runs the standard project checks in sequence: PHPUnit, PHP/frontend linting, PHPStan, Rector (dry-run), and check-outdated-dependencies. |
 
 ### Deployment and packaging
 

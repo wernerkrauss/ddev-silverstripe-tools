@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
-## Description: Run rector/jack or rector/swiss-knife
+## Description: Run rector/jack or rector/swiss-knife (Deprecated: Use check-outdated-dependencies instead)
 ## Usage: jack [jack-args]
 set -euo pipefail
+
+echo "[DEPRECATED] 'ddev jack' is deprecated and will be removed in a future release." >&2
+echo "Please use 'ddev check-outdated-dependencies' or 'rector/swiss-knife' instead." >&2
+
 if [[ -x vendor/bin/jack ]]; then
   php vendor/bin/jack "$@"
 elif [[ -x vendor/bin/swiss-knife ]]; then
