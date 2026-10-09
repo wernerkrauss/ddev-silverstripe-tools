@@ -60,3 +60,15 @@
 - **Breaking Changes**: Clearly mark breaking changes and mention any incompatibilities (e.g., with specific `rector/rector` versions).
 - **Language**: Changelog entries must be written in English.
 - **Line Length**: Ensure lines in `CHANGELOG.md` do not exceed 120 characters.
+
+---
+
+## References & DDEV Add-on Standards
+
+- **DDEV Add-on Template**: [ddev/ddev-addon-template](https://github.com/ddev/ddev-addon-template)
+- **DDEV Add-on Maintenance Guide**: [DDEV Blog: Add-on Maintenance Guide](https://ddev.com/blog/ddev-add-on-maintenance-guide/)
+- **Recommended Tools & Practices**:
+  - `ddev/ddev-addon-checker`: Automated GitHub Action to check repository metadata, files, and conventions.
+  - GitHub Actions CI matrix with Bats tests (`tests/test.bats`) for validating `ddev add-on get` and command execution.
+  - Linters: ShellCheck for bash scripts, markdownlint for docs, and yamllint for configuration files.
+  - Dependabot / auto-merge workflows for keeping GitHub Actions updated.
