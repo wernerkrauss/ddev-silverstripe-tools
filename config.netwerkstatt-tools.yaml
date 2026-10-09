@@ -11,5 +11,9 @@ hooks:
         composer install
         /mnt/ddev_config/commands/web/build
         if [ "${DDEV_SILVERSTRIPE_AUTO_FRONTEND:-false}" = "true" ]; then
-          yarn build
+          if [ -n "${DDEV_SILVERSTRIPE_THEME_PATH:-}" ] && [ "${DDEV_SILVERSTRIPE_THEME_PATH}" != "/" ]; then
+            yarn --cwd "$DDEV_SILVERSTRIPE_THEME_PATH" build
+          else
+            yarn build
+          fi
         fi

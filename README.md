@@ -39,6 +39,8 @@ web_environment:
 ```
 
 The hook then runs Composer installation, Silverstripe build, and optionally the frontend build after DDEV starts.
+When `DDEV_SILVERSTRIPE_THEME_PATH` is set to a theme directory, `yarn build` runs in that directory. If the variable
+is empty or set to `/`, the build runs in the webroot.
 Do not enable it for projects where startup should remain fast or where builds require a separate workflow.
 
 When the variable is unset or set to `false`, the hook exits immediately and does not run `composer install`, the
