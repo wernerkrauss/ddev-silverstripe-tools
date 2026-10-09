@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Project status and registry badges to `README.md`.
+- GitHub Actions workflow for `ddev/ddev-addon-checker`.
+- Automated Bats test suite (`tests/test.bats`) and GitHub Actions CI workflow (`.github/workflows/tests.yml`).
+- Repository linting workflow with ShellCheck, yamllint, markdownlint, and `.editorconfig`.
+- Dependabot configuration for GitHub Actions updates (`.github/dependabot.yml`).
+- GitHub issue templates (`bug_report.yml`, `feature_request.yml`) and pull request template.
 
 ### Fixed
 - Added `#ddev-generated` signature to all command files and configuration to allow DDEV to update files seamlessly.
