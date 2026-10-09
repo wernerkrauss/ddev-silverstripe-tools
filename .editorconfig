@@ -1,0 +1,26 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.bat]
+end_of_line = crlf
+
+[*.go]
+indent_style = tab
+
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = 0
+
+[*.sh]
+indent_size = 2
+indent_style = space
+
+[Makefile]
+indent_style = tab
