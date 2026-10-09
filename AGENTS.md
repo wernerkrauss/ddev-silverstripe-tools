@@ -63,12 +63,30 @@
 
 ---
 
+## Release Process
+
+When preparing and publishing a new release:
+1. **Update `CHANGELOG.md`**:
+   - Move entries from `[Unreleased]` to a new version section: `## [X.Y.Z] - YYYY-MM-DD`.
+   - Update diff links at the bottom (`[Unreleased]`, `[X.Y.Z]`).
+   - Keep an empty `## [Unreleased]` section at the top.
+   - Verify line length does not exceed 120 characters.
+2. **Commit changes**:
+   - Create a commit for the release: `git commit -m "Release vX.Y.Z"` (include co-author if required).
+3. **Tag the release**:
+   - Create a Git tag for the version: `git tag vX.Y.Z`.
+4. **Push commits and tags**:
+   - Push the release commit and tags: `git push origin main --tags`.
+5. **Create GitHub Release** (optional/recommended):
+   - Create a GitHub Release using the tag `vX.Y.Z` and copy release notes from `CHANGELOG.md`.
+
+---
+
 ## References & DDEV Add-on Standards
 
 - **DDEV Add-on Template**: [ddev/ddev-addon-template](https://github.com/ddev/ddev-addon-template)
 - **DDEV Add-on Maintenance Guide**: [DDEV Blog: Add-on Maintenance Guide](https://ddev.com/blog/ddev-add-on-maintenance-guide/)
 - **Recommended Tools & Practices**:
-  - `ddev/ddev-addon-checker`: Automated GitHub Action to check repository metadata, files, and conventions.
   - GitHub Actions CI matrix with Bats tests (`tests/test.bats`) for validating `ddev add-on get` and command execution.
   - Linters: ShellCheck for bash scripts, markdownlint for docs, and yamllint for configuration files.
   - Dependabot / auto-merge workflows for keeping GitHub Actions updated.
