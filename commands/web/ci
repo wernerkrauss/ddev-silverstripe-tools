@@ -37,7 +37,7 @@ echo "*** PHPUnit ***"
 /mnt/ddev_config/commands/web/phpunit "$@"
 PHPUNIT_EXIT=$?
 if [ $PHPUNIT_EXIT -eq 0 ]; then
-  echo -e "${GREEN}✅  PHPUnit OK${NC}"
+  echo -e "${GREEN}✔  PHPUnit OK${NC}"
   STATUS_PHPUNIT="OK"
 elif [ $PHPUNIT_EXIT -eq 127 ]; then
   echo -e "⚪  PHPUnit is not installed, skipping."
@@ -53,7 +53,7 @@ echo "*** Linting ***"
 /mnt/ddev_config/commands/web/lint
 LINT_EXIT=$?
 if [ $LINT_EXIT -eq 0 ]; then
-  echo -e "${GREEN}✅  Linting OK${NC}"
+  echo -e "${GREEN}✔  Linting OK${NC}"
   STATUS_LINT="OK"
 elif [ $LINT_EXIT -eq 127 ]; then
   echo -e "⚪  PHPCS is not installed, skipping."
@@ -69,7 +69,7 @@ echo "*** Rector ***"
 /mnt/ddev_config/commands/web/rector --dry-run --no-ansi
 RECTOR_EXIT=$?
 if [ $RECTOR_EXIT -eq 0 ]; then
-  echo -e "${GREEN}✅  Rector OK${NC}"
+  echo -e "${GREEN}✔  Rector OK${NC}"
   STATUS_RECTOR="OK"
 elif [ $RECTOR_EXIT -eq 127 ]; then
   echo -e "⚪  Rector is not installed, skipping."
@@ -85,7 +85,7 @@ echo "*** PHPStan ***"
 /mnt/ddev_config/commands/web/stan --no-ansi
 STAN_EXIT=$?
 if [ $STAN_EXIT -eq 0 ]; then
-  echo -e "${GREEN}✅  PHPStan OK${NC}"
+  echo -e "${GREEN}✔  PHPStan OK${NC}"
   STATUS_PHPSTAN="OK"
 elif [ $STAN_EXIT -eq 127 ]; then
   echo -e "⚪  PHPStan is not installed, skipping."
@@ -101,7 +101,7 @@ echo "*** Outdated dependencies ***"
 /mnt/ddev_config/commands/web/check-outdated-dependencies
 OUTDATED_DEPS_EXIT=$?
 if [ $OUTDATED_DEPS_EXIT -eq 0 ]; then
-  echo -e "${GREEN}✅  Outdated dependencies OK${NC}"
+  echo -e "${GREEN}✔  Outdated dependencies OK${NC}"
   STATUS_OUTDATED_DEPS="OK"
 elif [ $OUTDATED_DEPS_EXIT -eq 127 ]; then
   echo -e "⚪  rector/swiss-knife is not installed, skipping."
@@ -118,7 +118,7 @@ print_status() {
     local name="$1"
     local status="$2"
     if [ "$status" == "OK" ]; then
-        echo -e "${name}: $(printf '%*s' $((22 - ${#name})) '') ${GREEN}✅ OK${NC}"
+        echo -e "${name}: $(printf '%*s' $((22 - ${#name})) '') ${GREEN}✔ OK${NC}"
     elif [ "$status" == "FAILED" ]; then
         echo -e "${name}: $(printf '%*s' $((22 - ${#name})) '') ${RED}❌ FAILED${NC}"
     else
