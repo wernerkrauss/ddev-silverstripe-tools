@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - `ddev yaml-lint` for Silverstripe `_config` and `lang` YAML files, including duplicate-key detection.
+- Unit tests for the `phpunit` command's config file scanning and its `ddev ci` integration in
+  `tests/phpunit-command.bats`, plus unit tests for the remaining `commands/web/*` scripts (missing-binary exit 127,
+  argument passthrough, fallbacks) in `tests/web-commands.bats`. Both run without DDEV and are picked up by the
+  existing `bats tests` CI run.
+
+### Fixed
+- `ddev phpunit` no longer fails when no `phpunit.xml` is defined: without arguments it now scans for
+  `phpunit.xml`/`phpunit.xml.dist` (project root first, then subdirectories) and passes the first match to PHPUnit via
+  `--configuration`. When no configuration file is found, it prints a notice and exits with code `125`, which
+  `ddev ci` reports as SKIP.
 
 ## [0.2.2] - 2026-10-09
 

@@ -9,4 +9,29 @@ if [[ ! -x vendor/bin/phpunit ]]; then
   echo 'Install via: composer require --dev phpunit/phpunit (https://packagist.org/packages/phpunit/phpunit)' >&2
   exit 127
 fi
+
+# Without arguments, scan for a PHPUnit config file (phpunit.xml / phpunit.xml.dist)
+if [[ $# -eq 0 ]]; then
+  config_file=''
+  for candidate in phpunit.xml phpunit.xml.dist; do
+    if [[ -f "$candidate" ]]; then
+      config_file="$candidate"
+      break
+    fi
+  done
+  if [[ -z "$config_file" ]]; then
+    config_file="$(find . \
+      \( -path './.git' -o -path './.ddev' -o -path './vendor' -o -path './node_modules' \) -prune -o \
+      -type f \( -name 'phpunit.xml' -o -name 'phpunit.xml.dist' \) -print 2>/dev/null \
+      | sort | head -n 1 || true)"
+  fi
+  if [[ -n "$config_file" ]]; then
+    echo "Using PHPUnit configuration file: $config_file"
+    set -- --configuration "$config_file"
+  else
+    echo 'Notice: no phpunit.xml or phpunit.xml.dist found, skipping PHPUnit.' >&2
+    exit 125
+  fi
+fi
+
 SS_DATABASE_USERNAME="root" SS_DATABASE_PASSWORD="root" php -d memory_limit=-1 vendor/bin/phpunit "$@"

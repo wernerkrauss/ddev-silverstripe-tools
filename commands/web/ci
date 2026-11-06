@@ -43,6 +43,9 @@ if [ $PHPUNIT_EXIT -eq 0 ]; then
 elif [ $PHPUNIT_EXIT -eq 127 ]; then
   echo -e "⚪  PHPUnit is not installed, skipping."
   STATUS_PHPUNIT="SKIP"
+elif [ $PHPUNIT_EXIT -eq 125 ]; then
+  echo -e "⚪  No phpunit.xml or phpunit.xml.dist found, skipping PHPUnit."
+  STATUS_PHPUNIT="SKIP"
 else
   echo -e "${RED}❌  PHPUnit tests failed.${NC}"
   STATUS_PHPUNIT="FAILED"

@@ -21,7 +21,9 @@
   - `fix`: Formats PHP code with `phpcbf` and frontend code with Prettier.
   - `jack`: Backward-compatibility wrapper for `rector/jack` and `rector/swiss-knife`.
   - `lint`: Lints PHP code using `phpcs` and frontend code via Prettier if theme path is configured.
-  - `phpunit`: Runs `vendor/bin/phpunit` with Silverstripe DB credentials and unlimited memory.
+  - `phpunit`: Runs `vendor/bin/phpunit` with Silverstripe DB credentials and unlimited memory. Without arguments it
+    scans for `phpunit.xml`/`phpunit.xml.dist` (root first, then subdirectories) and passes the first match via
+    `--configuration`; if none is found it prints a notice and exits with code `125` (skipped).
   - `prettier`: Runs Prettier check/write within the configured theme path.
   - `rector`: Runs `vendor/bin/rector`.
   - `sspak`: Runs or auto-installs Silverstripe's `sspak` utility.
@@ -29,6 +31,9 @@
   - `tinker`: Runs Silverstripe interactive shell (`ssshell`).
 - `config.netwerkstatt-tools.yaml`: DDEV configuration providing the optional `post-start` hook.
 - `install.yaml`: DDEV add-on manifest listing files to be copied into `.ddev/`.
+- `tests/`: Bats test suites (excluded from release tarballs via `.gitattributes`). `test.bats` validates the add-on
+  installation via DDEV in CI; `phpunit-command.bats` and `web-commands.bats` unit-test the `commands/web/*` scripts
+  without DDEV and also run in the `bats tests` CI job.
 - `README.md`: User documentation on installation, usage, and environment variables.
 
 ---
@@ -46,8 +51,15 @@
 - **Bash Script Standards**: All command scripts use `set -euo pipefail`.
 - **Exit Code Convention**:
   - Missing project dependencies/binaries must return exit code `127` with helpful stderr messages.
+  - Checks with nothing to run (e.g. `phpunit` without a `phpunit.xml`/`phpunit.xml.dist`) return exit code `125`
+    (`Skipped`) after printing a notice; `ddev ci` reports these as SKIP.
   - Actual check/test failures return standard non-zero exit codes (usually `1`).
 - **Add-on File List**: Any new or removed command scripts in `commands/web/` must be synchronized with `install.yaml` under `project_files`.
+- **Tests live in the repository**: New behavior must be covered by tests committed under `tests/` as bats files
+  (see `tests/test.bats` and `tests/phpunit-command.bats`) — never only in scratchpads or temp directories. Tests
+  that do not need DDEV should run standalone (`bats tests/<file>.bats`) and must not carry the `release` tag, so
+  they run in the `bats tests` CI job. Files under `tests/` are excluded from release tarballs via `.gitattributes`
+  (`export-ignore`) and therefore do not need to be listed in `install.yaml`.
 
 ---
 
