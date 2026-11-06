@@ -46,6 +46,7 @@ health_checks() {
   assert_file_exist .ddev/commands/web/fix
   assert_file_exist .ddev/commands/web/jack
   assert_file_exist .ddev/commands/web/lint
+  assert_file_exist .ddev/commands/web/yaml-lint
   assert_file_exist .ddev/commands/web/phpunit
   assert_file_exist .ddev/commands/web/prettier
   assert_file_exist .ddev/commands/web/rector
@@ -53,6 +54,7 @@ health_checks() {
   assert_file_exist .ddev/commands/web/stan
   assert_file_exist .ddev/commands/web/tinker
   assert_file_exist .ddev/config.netwerkstatt-tools.yaml
+  assert_file_exist .ddev/.yamllint-silverstripe.yaml
 }
 
 teardown() {

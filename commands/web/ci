@@ -28,6 +28,7 @@ EXIT_CODE=0
 # Status-Speicher
 STATUS_PHPUNIT="SKIP"
 STATUS_LINT="SKIP"
+STATUS_YAML_LINT="SKIP"
 STATUS_RECTOR="SKIP"
 STATUS_PHPSTAN="SKIP"
 STATUS_OUTDATED_DEPS="SKIP"
@@ -64,7 +65,23 @@ else
   EXIT_CODE=1
 fi
 
-# 3) Rector (dry-run)
+# 3) YAML linting
+echo "*** YAML linting ***"
+/mnt/ddev_config/commands/web/yaml-lint
+YAML_LINT_EXIT=$?
+if [ $YAML_LINT_EXIT -eq 0 ]; then
+  echo -e "${GREEN}✔  YAML linting OK${NC}"
+  STATUS_YAML_LINT="OK"
+elif [ $YAML_LINT_EXIT -eq 127 ]; then
+  echo -e "⚪  yamllint is not installed, skipping."
+  STATUS_YAML_LINT="SKIP"
+else
+  echo -e "${RED}❌  YAML linting found errors.${NC}"
+  STATUS_YAML_LINT="FAILED"
+  EXIT_CODE=1
+fi
+
+# 4) Rector (dry-run)
 echo "*** Rector ***"
 /mnt/ddev_config/commands/web/rector --dry-run --no-ansi
 RECTOR_EXIT=$?
@@ -128,6 +145,7 @@ print_status() {
 
 print_status "PHPUnit" "$STATUS_PHPUNIT"
 print_status "Linting" "$STATUS_LINT"
+print_status "YAML linting" "$STATUS_YAML_LINT"
 print_status "Rector" "$STATUS_RECTOR"
 print_status "PHPStan" "$STATUS_PHPSTAN"
 print_status "Outdated dependencies" "$STATUS_OUTDATED_DEPS"

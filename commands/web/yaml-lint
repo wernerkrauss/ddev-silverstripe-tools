@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+#ddev-generated
+## Description: Lint Silverstripe YAML configuration and translation files
+## Usage: yaml-lint [yamllint-args]
+set -euo pipefail
+
+if ! command -v yamllint >/dev/null 2>&1; then
+  echo 'Error: yamllint is not installed in the web container.' >&2
+  echo 'Install it in the web image or configure yamllint as a project tool.' >&2
+  exit 127
+fi
+
+CONFIG_FILE=".ddev/.yamllint-silverstripe.yaml"
+if [[ -f .yamllint.yaml ]]; then
+  CONFIG_FILE=".yamllint.yaml"
+elif [[ -f .yamllint.yml ]]; then
+  CONFIG_FILE=".yamllint.yml"
+fi
+
+mapfile -t YAML_FILES < <(
+  find . -type f \
+    -not -path './.git/*' \
+    -not -path './.ddev/*' \
+    -not -path './node_modules/*' \( \
+    -path '*/_config/*.yml' -o -path '*/_config/*.yaml' -o \
+    -path '*/lang/*.yml' -o -path '*/lang/*.yaml' \
+    \) -print 2>/dev/null | sort -u
+)
+
+if [[ "${#YAML_FILES[@]}" -eq 0 ]]; then
+  echo 'No Silverstripe _config or lang YAML files found.'
+  exit 0
+fi
+
+yamllint --config-file "$CONFIG_FILE" "$@" "${YAML_FILES[@]}"

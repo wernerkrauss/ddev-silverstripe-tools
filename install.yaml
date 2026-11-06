@@ -10,6 +10,7 @@ project_files:
   - commands/web/fix
   - commands/web/jack
   - commands/web/lint
+  - commands/web/yaml-lint
   - commands/web/phpunit
   - commands/web/prettier
   - commands/web/rector
@@ -17,3 +18,4 @@ project_files:
   - commands/web/stan
   - commands/web/tinker
   - config.netwerkstatt-tools.yaml
+  - .yamllint-silverstripe.yaml

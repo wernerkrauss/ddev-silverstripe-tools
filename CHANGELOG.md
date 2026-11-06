@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `ddev yaml-lint` for Silverstripe `_config` and `lang` YAML files, including duplicate-key detection.
+
 ## [0.2.2] - 2026-10-09
 
 ### Added
