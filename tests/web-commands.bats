@@ -41,6 +41,15 @@ EOF
 
   chmod +x "$TESTDIR/bin/php" "$TESTDIR/bin/composer" "$TESTDIR/bin/jq"
   export PATH="$TESTDIR/bin:$PATH"
+
+  # Clean PATH dir with only core tools symlinked. Tests that assert a tool is
+  # NOT installed run with this PATH, because CI runners and dev machines may
+  # have e.g. yamllint or sake installed globally.
+  mkdir -p "$TESTDIR/cleanbin"
+  local t
+  for t in bash find sort head cat; do
+    ln -s "$(command -v "$t")" "$TESTDIR/cleanbin/$t"
+  done
 }
 
 teardown() {
@@ -299,7 +308,9 @@ assert_output_not_contains() {
 
 @test "build: no sake anywhere exits 127 with install hint" {
   export JQ_RESULT="4.13.0"
-  run_cmd_127 build
+  cd "$TESTDIR/project"
+  # sanitized PATH: a globally installed sake on the host must not leak in
+  run -127 env PATH="$TESTDIR/bin:$TESTDIR/cleanbin" bash "$CMD/build"
   assert_output_contains "Error: sake not found"
   assert_output_contains "composer require silverstripe/framework"
 }
@@ -357,7 +368,9 @@ assert_output_not_contains() {
 # --- yaml-lint --------------------------------------------------------------
 
 @test "yaml-lint: missing yamllint exits 127 with install hint" {
-  run_cmd_127 yaml-lint
+  cd "$TESTDIR/project"
+  # sanitized PATH: GitHub runners have yamllint preinstalled, it must not leak in
+  run -127 env PATH="$TESTDIR/cleanbin" bash "$CMD/yaml-lint"
   assert_output_contains "Error: yamllint is not installed in the web container."
 }
 

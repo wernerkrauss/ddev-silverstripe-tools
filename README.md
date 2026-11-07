@@ -107,3 +107,26 @@ otherwise, additional arguments are passed to the underlying tool.
   which installs its global binary automatically.
 - `ddev phpunit` without arguments exits with code 125 (skipped, after printing a notice) when no `phpunit.xml`/`phpunit.xml.dist` exists in the project.
 - `ddev ci` is a convenience wrapper around the other checks, including Silverstripe YAML linting; it runs all checks, treats uninstalled tools (exit code 127) and skipped checks (exit code 125) as skipped, collects their statuses, and outputs a summary at the end.
+
+## Development
+
+### Running the tests
+
+The add-on ships bats test suites in `tests/`. The unit tests (`tests/phpunit-command.bats`, `tests/web-commands.bats`)
+stub `php`, `composer`, `jq`, `yarn`, and the project-local binaries, so they run without DDEV — only bats-core is
+required:
+
+```bash
+brew install bats-core   # Linux: apt install bats
+bats tests/phpunit-command.bats tests/web-commands.bats
+```
+
+`tests/test.bats` validates the add-on installation inside a real DDEV project, so it additionally needs Docker and
+DDEV locally plus the bats libraries:
+
+```bash
+brew install ddev bats-core bats-assert bats-file bats-support
+bats ./tests/test.bats --filter-tags '!release'
+```
+
+CI runs `bats tests --filter-tags '!release'` on every push and pull request (see `.github/workflows/tests.yml`).

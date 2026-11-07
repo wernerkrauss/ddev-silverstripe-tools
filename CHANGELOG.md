@@ -13,8 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `tests/phpunit-command.bats`, plus unit tests for the remaining `commands/web/*` scripts (missing-binary exit 127,
   argument passthrough, fallbacks) in `tests/web-commands.bats`. Both run without DDEV and are picked up by the
   existing `bats tests` CI run.
+- README section "Development" documenting how to run the bats test suites locally (unit tests without DDEV,
+  `tests/test.bats` with DDEV and Docker).
 
 ### Fixed
+- `tests/web-commands.bats`: the "tool not installed" tests (`yaml-lint` without yamllint, `build` without sake)
+  now run with a sanitized PATH, so they also pass on GitHub runners where yamllint is preinstalled (previously
+  failed as `not ok 45 yaml-lint: missing yamllint exits 127 with install hint`).
 - `ddev phpunit` no longer fails when no `phpunit.xml` is defined: without arguments it now scans for
   `phpunit.xml`/`phpunit.xml.dist` (project root first, then subdirectories) and passes the first match to PHPUnit via
   `--configuration`. When no configuration file is found, it prints a notice and exits with code `125`, which
