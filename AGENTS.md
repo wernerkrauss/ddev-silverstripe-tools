@@ -5,6 +5,7 @@
 `ddev-silverstripe-tools` is a DDEV add-on providing custom DDEV web commands and optional startup hooks tailored for Silverstripe CMS projects.
 
 ### Key Objectives & Architecture
+
 - **Non-intrusive container commands**: Implements wrapper commands in `commands/web/` that execute standard PHP and Silverstripe CLI tools inside the DDEV `web` container.
 - **Fail-safe & Missing Binary Detection**: Commands check for project-local binaries (`vendor/bin/*`) and exit with code `127` (`Command not found`) and actionable installation instructions (including Packagist URLs) when a tool is not installed.
 - **Aggregated CI Tooling (`ddev ci`)**: Runs a suite of quality checks (PHPUnit, PHPCS / Prettier, Rector, PHPStan, Outdated Dependencies) with formatted ANSI output, skips uninstalled tools gracefully without failing the suite, and prints a final status report.
@@ -60,6 +61,11 @@
   that do not need DDEV should run standalone (`bats tests/<file>.bats`) and must not carry the `release` tag, so
   they run in the `bats tests` CI job. Files under `tests/` are excluded from release tarballs via `.gitattributes`
   (`export-ignore`) and therefore do not need to be listed in `install.yaml`.
+- **Run CI checks locally before pushing**: Before every push, run the linters from `.github/workflows/lint.yml`
+  locally (ShellCheck on `commands/`, yamllint with `.yamllint.yaml`, markdownlint with `.markdownlint.yaml` on
+  `*.md` — exact commands in the README "Development" section) and the DDEV-free unit tests
+  (`bats tests/phpunit-command.bats tests/web-commands.bats`). The full `bats tests` run including `tests/test.bats`
+  needs DDEV and Docker and runs in CI.
 
 ---
 
@@ -78,6 +84,7 @@
 ## Release Process
 
 When preparing and publishing a new release:
+
 1. **Update `CHANGELOG.md`**:
    - Move entries from `[Unreleased]` to a new version section: `## [X.Y.Z] - YYYY-MM-DD`.
    - Update diff links at the bottom (`[Unreleased]`, `[X.Y.Z]`).

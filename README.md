@@ -130,3 +130,22 @@ bats ./tests/test.bats --filter-tags '!release'
 ```
 
 CI runs `bats tests --filter-tags '!release'` on every push and pull request (see `.github/workflows/tests.yml`).
+
+### Linting locally
+
+Run the same checks as the `lint` workflow (see `.github/workflows/lint.yml`) before pushing:
+
+```bash
+# ShellCheck on commands/ (CI scans ./commands)
+shellcheck commands/web/*
+
+# yamllint on the whole repository with the project config
+yamllint -c .yamllint.yaml .
+
+# markdownlint on the root *.md files with the project config
+npx --yes markdownlint-cli --config .markdownlint.yaml '*.md'
+```
+
+Install the tools with `brew install shellcheck yamllint markdownlint-cli` on macOS, or with
+`sudo apt install shellcheck yamllint` and `npm install -g markdownlint-cli` (or just `npx`) on Ubuntu/WSL;
+yamllint is also available via `pipx install yamllint`.
