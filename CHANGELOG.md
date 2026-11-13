@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `ddev composer-validate` command validating the project's `composer.json` via `composer validate --no-check-publish`
+  (extra arguments are passed through, e.g. `--strict`). It is included in `ddev ci` and skips (exit code `125`)
+  when no `composer.json` exists.
+
 ## [0.2.3] - 2026-11-09
 
 ### Added

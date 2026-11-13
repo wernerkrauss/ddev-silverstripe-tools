@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#ddev-generated
+## Description: Validate the project's composer.json
+## Usage: composer-validate [composer-args]
+set -euo pipefail
+
+if ! command -v composer >/dev/null 2>&1; then
+  echo 'Error: composer is not available in the web container.' >&2
+  exit 127
+fi
+
+if [[ ! -f composer.json ]]; then
+  echo 'Notice: no composer.json found, skipping composer validate.' >&2
+  exit 125
+fi
+
+composer validate --no-check-publish "$@"

@@ -19,6 +19,8 @@
   - `build`: Runs Silverstripe `sake` (`db:build --flush` or `dev/build flush`).
   - `check-outdated-dependencies`: Checks for outdated dependencies via `rector/swiss-knife` (with fallback to `rector/jack breakpoint`).
   - `ci`: Runs full CI check suite (PHPUnit, Lint, Rector dry-run, PHPStan, Outdated dependencies) with summary table.
+  - `composer-validate`: Validates the project's `composer.json` via `composer validate --no-check-publish`; skips
+    with exit code `125` when no `composer.json` exists.
   - `fix`: Formats PHP code with `phpcbf` and frontend code with Prettier.
   - `jack`: Backward-compatibility wrapper for `rector/jack` and `rector/swiss-knife`.
   - `lint`: Lints PHP code using `phpcs` and frontend code via Prettier if theme path is configured.

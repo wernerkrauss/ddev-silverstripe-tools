@@ -43,6 +43,7 @@ health_checks() {
   assert_file_exist .ddev/commands/web/build
   assert_file_exist .ddev/commands/web/check-outdated-dependencies
   assert_file_exist .ddev/commands/web/ci
+  assert_file_exist .ddev/commands/web/composer-validate
   assert_file_exist .ddev/commands/web/fix
   assert_file_exist .ddev/commands/web/jack
   assert_file_exist .ddev/commands/web/lint

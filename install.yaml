@@ -7,6 +7,7 @@ project_files:
   - commands/web/build
   - commands/web/check-outdated-dependencies
   - commands/web/ci
+  - commands/web/composer-validate
   - commands/web/fix
   - commands/web/jack
   - commands/web/lint

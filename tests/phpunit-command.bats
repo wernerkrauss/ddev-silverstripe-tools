@@ -77,7 +77,7 @@ setup_ci() {
   mkdir -p "$TESTDIR/ddev-commands/web"
   cp "$SCRIPT_PHPUNIT" "$TESTDIR/ddev-commands/web/phpunit"
   local c
-  for c in lint yaml-lint rector stan check-outdated-dependencies; do
+  for c in lint yaml-lint rector stan check-outdated-dependencies composer-validate; do
     printf '#!/usr/bin/env bash\nexit 127\n' > "$TESTDIR/ddev-commands/web/$c"
     chmod +x "$TESTDIR/ddev-commands/web/$c"
   done
@@ -248,4 +248,26 @@ assert_summary_status() {
   assert_status 0
   assert_output_contains "PHPUnit is not installed, skipping."
   assert_summary_status "PHPUnit" "SKIP"
+}
+
+@test "ci: valid composer.json shows Composer validate OK" {
+  setup_ci
+  printf '#!/usr/bin/env bash\nexit 0\n' > "$TESTDIR/ddev-commands/web/composer-validate"
+  chmod +x "$TESTDIR/ddev-commands/web/composer-validate"
+  cd "$TESTDIR/project"
+  run bash "$TESTDIR/ci"
+  assert_status 0
+  assert_output_contains "Composer validate OK"
+  assert_summary_status "Composer validate" "OK"
+}
+
+@test "ci: composer validation failure (exit 1) fails ci" {
+  setup_ci
+  printf '#!/usr/bin/env bash\nexit 1\n' > "$TESTDIR/ddev-commands/web/composer-validate"
+  chmod +x "$TESTDIR/ddev-commands/web/composer-validate"
+  cd "$TESTDIR/project"
+  run bash "$TESTDIR/ci"
+  assert_status 1
+  assert_output_contains "composer.json is invalid. Please fix the reported issues"
+  assert_summary_status "Composer validate" "FAILED"
 }

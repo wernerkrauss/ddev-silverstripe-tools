@@ -402,3 +402,42 @@ assert_output_not_contains() {
   assert_status 0
   assert_output_contains "--config-file .yamllint.yaml"
 }
+
+# --- composer-validate --------------------------------------------------------
+
+@test "composer-validate: missing composer.json exits 125 with notice" {
+  run_cmd composer-validate
+  assert_status 125
+  assert_output_contains "Notice: no composer.json found, skipping composer validate."
+}
+
+@test "composer-validate: runs composer validate --no-check-publish" {
+  touch "$TESTDIR/project/composer.json"
+  run_cmd composer-validate
+  assert_status 0
+  assert_output_contains "COMPOSER_ARGS: validate --no-check-publish"
+}
+
+@test "composer-validate: passes extra arguments through" {
+  touch "$TESTDIR/project/composer.json"
+  run_cmd composer-validate --strict
+  assert_status 0
+  assert_output_contains "COMPOSER_ARGS: validate --no-check-publish --strict"
+}
+
+@test "composer-validate: composer not available exits 127 with hint" {
+  touch "$TESTDIR/project/composer.json"
+  cd "$TESTDIR/project"
+  # sanitized PATH: CI runners and dev machines have composer installed globally
+  run -127 env PATH="$TESTDIR/cleanbin" bash "$CMD/composer-validate"
+  assert_output_contains "Error: composer is not available in the web container."
+}
+
+@test "composer-validate: validation failure is propagated" {
+  touch "$TESTDIR/project/composer.json"
+  printf '#!/usr/bin/env bash\necho "COMPOSER_ARGS: $*" >&2\nexit 1\n' > "$TESTDIR/bin/composer"
+  chmod +x "$TESTDIR/bin/composer"
+  run_cmd composer-validate
+  assert_status 1
+  assert_output_contains "COMPOSER_ARGS: validate --no-check-publish"
+}

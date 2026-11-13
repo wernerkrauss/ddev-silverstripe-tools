@@ -91,7 +91,8 @@ otherwise, additional arguments are passed to the underlying tool.
 | `ddev yaml-lint [yamllint-args]` | Lints `_config` and `lang` YAML files in the project and its modules. Duplicate keys are errors. |
 | `ddev fix` | Fixes PHP formatting with `vendor/bin/phpcbf` and formats the configured theme with Prettier. This changes files. |
 | `ddev prettier [check\|write]` | Checks or formats `src/**/*.{js,css,scss}` below `DDEV_SILVERSTRIPE_THEME_PATH` using the theme’s Yarn/Prettier installation. The default is `check`. |
-| `ddev ci` | Runs the standard project checks in sequence: PHPUnit, PHP/frontend linting, YAML linting, PHPStan, Rector (dry-run), and check-outdated-dependencies. |
+| `ddev ci` | Runs the standard project checks in sequence: PHPUnit, PHP/frontend linting, YAML linting, PHPStan, Rector (dry-run), composer validate, and check-outdated-dependencies. |
+| `ddev composer-validate [args]` | Validates the project’s `composer.json` via `composer validate --no-check-publish`. Additional arguments (e.g. `--strict`) are passed through. |
 
 ### Deployment and packaging
 

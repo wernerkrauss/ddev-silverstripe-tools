@@ -31,6 +31,7 @@ STATUS_LINT="SKIP"
 STATUS_YAML_LINT="SKIP"
 STATUS_RECTOR="SKIP"
 STATUS_PHPSTAN="SKIP"
+STATUS_COMPOSER_VALIDATE="SKIP"
 STATUS_OUTDATED_DEPS="SKIP"
 
 # 1) PHPUnit (delegate to the dedicated ddev command to avoid duplication)
@@ -116,7 +117,26 @@ else
   EXIT_CODE=1
 fi
 
-# 5) Outdated dependencies (Composer update check)
+# 5) Composer validate (project's composer.json)
+echo "*** Composer validate ***"
+/mnt/ddev_config/commands/web/composer-validate
+COMPOSER_VALIDATE_EXIT=$?
+if [ $COMPOSER_VALIDATE_EXIT -eq 0 ]; then
+  echo -e "${GREEN}✔  Composer validate OK${NC}"
+  STATUS_COMPOSER_VALIDATE="OK"
+elif [ $COMPOSER_VALIDATE_EXIT -eq 127 ]; then
+  echo -e "⚪  composer is not available, skipping."
+  STATUS_COMPOSER_VALIDATE="SKIP"
+elif [ $COMPOSER_VALIDATE_EXIT -eq 125 ]; then
+  echo -e "⚪  No composer.json found, skipping composer validate."
+  STATUS_COMPOSER_VALIDATE="SKIP"
+else
+  echo -e "${RED}❌  composer.json is invalid. Please fix the reported issues${NC}"
+  STATUS_COMPOSER_VALIDATE="FAILED"
+  EXIT_CODE=1
+fi
+
+# 6) Outdated dependencies (Composer update check)
 echo "*** Outdated dependencies ***"
 /mnt/ddev_config/commands/web/check-outdated-dependencies
 OUTDATED_DEPS_EXIT=$?
@@ -151,6 +171,7 @@ print_status "Linting" "$STATUS_LINT"
 print_status "YAML linting" "$STATUS_YAML_LINT"
 print_status "Rector" "$STATUS_RECTOR"
 print_status "PHPStan" "$STATUS_PHPSTAN"
+print_status "Composer validate" "$STATUS_COMPOSER_VALIDATE"
 print_status "Outdated dependencies" "$STATUS_OUTDATED_DEPS"
 echo "========================================="
 
